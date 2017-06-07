@@ -10,7 +10,7 @@ class CompanySpider(scrapy.Spider):
     url_host = 'http://m.jobui.com/company/'
 
     def start_requests(self):
-        start = 660
+        start = 1
         while True:
             str_num = str(start)
             start = start + 1
