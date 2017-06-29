@@ -21,7 +21,7 @@ class CompanySpider(scrapy.Spider):
         item['coinfo'] = ''
         item['vocation'] = ''
 
-        company_name = response.xpath("//p[@class=\"mb10 fwb fs20\"]/text()")
+        company_name = response.xpath("//*[@id=\"jobuiMobile\"]/section/div[1]/div[2]/div/p[1]/text()")
         company_info = response.xpath("//div[@class=\"mb10 bg-white pd10x15\"]/ul/li")
         
         for li in company_info:
@@ -29,7 +29,7 @@ class CompanySpider(scrapy.Spider):
             if spans[0].xpath('./text()').extract_first().encode('utf8') == '性质：':
                 item['coinfo'] = spans[1].xpath('./text()').extract_first(default='').encode('utf8')
             if spans[0].xpath('./text()').extract_first().encode('utf8') == '行业：':
-                item['vocation'] = spans[1].xpath('./text()').extract_first(default='').encode('utf8')
+                item['vocation'] = ''.join(map(lambda x: x.xpath('./text()').extract_first(default='').encode('utf8'), spans[1].xpath('./a')))
             
         company_vocation = response.xpath("/html/body/section/div[2]/ul/li[2]/span[2]/a/text()")
         
